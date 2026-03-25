@@ -123,8 +123,9 @@
         updateCount();
 
         let creatTask = document.createElement('li');
-        creatTask.textContent = task; 
+        creatTask.textContent = task; // text on the left
 
+        // simple checkbox next to X
         let checkBox = document.createElement('input');
         checkBox.type = 'checkbox';
         checkBox.classList.add('checkbox');
@@ -141,6 +142,7 @@
           saveTasks();
         });
 
+        // order: [text (left)] [checkbox] [X (absolute right)]
         creatTask.appendChild(checkBox);
         creatTask.appendChild(delBtn);
         list.appendChild(creatTask);
@@ -156,7 +158,7 @@
         let tasks = [];
 
         items.forEach(li => {
-          
+          // firstChild is the text node with the task
           tasks.push(li.firstChild.textContent.trim());
         });
 
