@@ -30,13 +30,16 @@
         text-align: center;
       }
       #app {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 90vh;
+      display: flex;
+      justify-content: center;
+      padding-top: 40px; /* keeps it nicely placed */
       }
+
+
       .list{
         padding: 0px;
+        max-height: 300px;
+        overflow-y: auto;
       }
       li{
         background-color: hsl(0 , 0% , 75.67%);
@@ -44,7 +47,7 @@
         text-align: left;
         position: relative;
         padding: 5px;
-        padding-right: 40px; /* space for X button */
+        padding-right: 40px; 
         margin-bottom: 5px;
         display: flex;
         align-items: center;
@@ -72,7 +75,17 @@
         cursor: pointer;
       }
       #author{
-        text-align: right;
+       position: fixed;
+       bottom: 10px;
+       right: 10px;
+       margin: 0;
+
+
+      }
+      .checkbox{
+        margin-right: 5px;
+        width: 30px;
+        height: 15;
       }
     </style>
   </head>
@@ -133,14 +146,32 @@
         delBtn.textContent = 'X';
         delBtn.classList.add('delBtn');
 
-        delBtn.addEventListener('click', function(e) {
-          e.stopPropagation();
+        delBtn.addEventListener('click', () => {
+          if (checkBox.checked) {
           creatTask.remove();
-          count--;
-          updateCount();
           saveTasks();
+          }else {
+            creatTask.remove();
+            count--;
+            updateCount();
+            saveTasks();
+          }
         });
+      
+      
+      
 
+        checkBox.addEventListener('click', () => {
+        if (checkBox.checked) {
+          count --;
+          creatTask.style.cssText = 'text-decoration:line-through; opacity:0.6;'
+        } else{
+          count ++;
+          creatTask.style.cssText = 'text-decoration:none; opacity:1;'
+        }
+        updateCount();
+         
+      })
 
         creatTask.appendChild(checkBox);
         creatTask.appendChild(delBtn);
@@ -187,4 +218,3 @@
     </script>
   </body>
 </html>
-w
