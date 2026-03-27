@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>To-Do List</title>
@@ -44,11 +45,10 @@
         text-align: center;
       }
       #app {
-      display: flex;
-      justify-content: center;
-      padding-top: 40px; 
+        display: flex;
+        justify-content: center;
+        padding-top: 40px; 
       }
-
 
       .list{
         padding: 0px;
@@ -97,7 +97,6 @@
         background-color: hsl(0, 71%, 45.99%); 
         transform: none;
         cursor: not-allowed;
-
       }
       .delBtn{
         position: absolute;
@@ -125,7 +124,7 @@
       }
       #author:hover ~ .cnfrm {
         opacity: 1;
-        transition: opacity 0.34567891011121314151617181920212324252627282930s ease-in-out;
+        transition: opacity 0.3s ease-in-out;
       }
       .checkbox{
         margin-right: 5px;
@@ -146,18 +145,19 @@
         transform: scale(1.123456789);
       }
       .cnfrm {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(3);
-      font-size: 30px;
-      color: white;
-      z-index: 999999;
-      opacity: 0;
-      -webkit-text-stroke: 1px black;
-      transition: opacity 0.75s ease-in-out 0.999999999999999999999999999999s;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(3);
+        font-size: 30px;
+        color: white;
+        z-index: 999999;
+        opacity: 0;
+        -webkit-text-stroke: 1px black;
+        transition: opacity 0.75s ease-in-out 1s;
+        background-color: hsla(0, 0%, 99%, 0.059);
+        border-radius: 5px;
       }
-      
     </style>
   </head>
 
@@ -170,7 +170,7 @@
         <input type="text" class="input" id="input" placeholder="Enter a task . . ." autocomplete="off" required maxlength="26">
         <button id="create" onclick="renderTask();" disabled>Add</button>
 
-        <h4 id="left"></h4>
+        <h4 id="left">Task(s) left: 0</h4>
 
         <ul class="list" type="none" tabindex="0"></ul>
 
@@ -187,6 +187,7 @@
       let count = 0;
       let addBtn = document.getElementById('create');
       let clear = document.querySelector('.reset');
+
       document.addEventListener('DOMContentLoaded', loadTasks);
 
       input.addEventListener('keydown', function(event) {
@@ -202,12 +203,8 @@
       });
 
       input.addEventListener('input', () => {
-        if (input.value.length > 0) {
-          addBtn.disabled = false;
-        } else {
-          addBtn.disabled = true;
-        };
-      })
+        addBtn.disabled = input.value.trim().length === 0;
+      });
 
       function renderTask(taskText) {
         let task = taskText || input.value.trim();
@@ -217,7 +214,7 @@
         updateCount();
 
         let creatTask = document.createElement('li');
-        creatTask.textContent = task; 
+        creatTask.textContent = task;
 
         let checkBox = document.createElement('input');
         checkBox.type = 'checkbox';
@@ -229,28 +226,27 @@
 
         delBtn.addEventListener('click', () => {
           if (checkBox.checked) {
-          creatTask.remove();
-          saveTasks();
-          }else {
+            creatTask.remove();
+            saveTasks();
+          } else {
             creatTask.remove();
             count--;
             updateCount();
             saveTasks();
           }
-          checkForTasks()
+          checkForTasks();
         });
 
         checkBox.addEventListener('click', () => {
-        if (checkBox.checked) {
-          count --;
-          creatTask.style.cssText = 'text-decoration:line-through; opacity:0.6;'
-        } else{
-          count ++;
-          creatTask.style.cssText = 'text-decoration:none; opacity:1;'
-        }
-        updateCount();
-         
-      })
+          if (checkBox.checked) {
+            count--;
+            creatTask.style.cssText = 'text-decoration:line-through; opacity:0.6;';
+          } else {
+            count++;
+            creatTask.style.cssText = 'text-decoration:none; opacity:1;';
+          }
+          updateCount();
+        });
 
         creatTask.appendChild(checkBox);
         creatTask.appendChild(delBtn);
@@ -269,7 +265,6 @@
         let tasks = [];
 
         items.forEach(li => {
-
           tasks.push(li.firstChild.textContent.trim());
         });
 
@@ -291,7 +286,7 @@
         count = 0;
         updateCount();
         localStorage.removeItem("saves");
-        checkForTasks()
+        checkForTasks();
         input.dispatchEvent(new Event('input'));
       }
 
@@ -300,12 +295,7 @@
       }
 
       function checkForTasks() {
-        let hasTasks = document.querySelectorAll("li").length > 0;
-        if (hasTasks) {
-          clear.disabled = false;
-        }else {
-          clear.disabled = true;
-        }
+        clear.disabled = document.querySelectorAll("li").length === 0;
       }
     </script>
   </body>
