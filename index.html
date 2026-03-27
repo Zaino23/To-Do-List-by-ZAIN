@@ -123,6 +123,10 @@
         transform: scale(1.123);
         text-decoration: wavy;
       }
+      #author:hover ~ .cnfrm {
+        opacity: 1;
+        transition: opacity 0.34567891011121314151617181920212324252627282930s ease-in-out;
+      }
       .checkbox{
         margin-right: 5px;
         width: 30px;
@@ -141,6 +145,19 @@
       #left:hover{
         transform: scale(1.123456789);
       }
+      .cnfrm {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(3);
+      font-size: 30px;
+      color: white;
+      z-index: 999999;
+      opacity: 0;
+      -webkit-text-stroke: 1px black;
+      transition: opacity 0.75s ease-in-out 0.999999999999999999999999999999s;
+      }
+      
     </style>
   </head>
 
@@ -161,6 +178,7 @@
     </div>  
 
     <h4 id="author">Made by Zain</h4>
+    <h3 class="cnfrm">Yup It's made by me</h3>
   
     <script>
       let list = document.querySelector('.list');
